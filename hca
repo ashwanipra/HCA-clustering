@@ -1,0 +1,27 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+dataset=pd.read_csv('Mall_Customers.csv')
+
+X=dataset.iloc[:,3:5].values
+
+import scipy.cluster.hierarchy as sch
+dendogram=sch.dendrogram(sch.linkage(X,method='ward'))
+
+from sklearn.cluster import AgglomerativeClustering
+hca=AgglomerativeClustering(n_clusters=5)
+y_out=hca.fit_predict(X)
+
+plt.scatter(X[y_out==0,0],X[y_out==0,1],c="r",label="Miser")
+plt.scatter(X[y_out==1,0],X[y_out==1,1],c="g",label="Middle class")
+plt.scatter(X[y_out==2,0],X[y_out==2,1],c="b",label="rich")
+plt.scatter(X[y_out==3,0],X[y_out==3,1],c="cyan",label="careless")
+plt.scatter(X[y_out==4,0],X[y_out==4,1],c="magenta",label="poor")
+plt.xlabel('Income')
+plt.legend()
+plt.ylabel('Annual Expense')
+plt.title("graph to identify the segmented customer")
+plt.show()
+
+
